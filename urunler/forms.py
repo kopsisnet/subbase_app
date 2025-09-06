@@ -13,7 +13,11 @@ class UrunForm(forms.ModelForm):
         }
         widgets = {
             'ad': forms.TextInput(attrs={'class': 'form-input'}),
-            'fiyat': forms.NumberInput(attrs={'class': 'form-input'}),
+            'fiyat': forms.NumberInput(attrs={
+                'step': '0.01',
+                'class': 'form-input',
+                'placeholder': 'Örn: 2.00'
+            }),
             'stok': forms.NumberInput(attrs={'class': 'form-input'}),
             'aciklama': forms.Textarea(attrs={'class': 'form-textarea'}),
         }
