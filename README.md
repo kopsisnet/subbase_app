@@ -150,5 +150,3 @@ Bu proje KOPSIS tarafından geliştirilmiştir.
 ```
 
 ---
-
-İstersen bu `README.md` dosyasını GitHub repo köküne ekleyebilirim veya Markdown formatında daha sade bir versiyonunu da hazırlayabilirim. Ayrıca domain bağlama, CI/CD entegrasyonu veya Supabase Auth için ek bölümler de ekleyebilirim. Devam edelim mi?
