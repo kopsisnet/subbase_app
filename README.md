@@ -149,4 +149,3 @@ Pull request’ler ve öneriler memnuniyetle karşılanır.
 Bu proje KOPSIS tarafından geliştirilmiştir.
 ```
 
----
