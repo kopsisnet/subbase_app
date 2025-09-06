@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Ürün Sil{% endblock %}
+{% block content %}
+<p class="mb-4">“{{ urun.ad }}” adlı ürünü silmek istediğinizden emin misiniz?</p>
+<form method="post">
+  {% csrf_token %}
+  <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Sil</button>
+  <a href="{% url 'urun_listesi' %}" class="ml-4 text-gray-700">İptal</a>
+</form>
+{% endblock %}

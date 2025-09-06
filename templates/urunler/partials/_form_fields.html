@@ -1,0 +1,38 @@
+<div class="space-y-4">
+    <div>
+      <label for="id_ad" class="block text-sm font-medium text-gray-700">Ürün Adı</label>
+      <input type="text" name="ad" id="id_ad" value="{{ form.ad.value|default_if_none:'' }}"
+             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+      {% if form.ad.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.ad.errors.0 }}</p>
+      {% endif %}
+    </div>
+  
+    <div>
+      <label for="id_fiyat" class="block text-sm font-medium text-gray-700">Fiyat (₺)</label>
+      <input type="number" step="0.01" name="fiyat" id="id_fiyat" value="{{ form.fiyat.value|default_if_none:'' }}"
+             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+      {% if form.fiyat.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.fiyat.errors.0 }}</p>
+      {% endif %}
+    </div>
+  
+    <div>
+      <label for="id_stok" class="block text-sm font-medium text-gray-700">Stok Miktarı</label>
+      <input type="number" name="stok" id="id_stok" value="{{ form.stok.value|default_if_none:'' }}"
+             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+      {% if form.stok.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.stok.errors.0 }}</p>
+      {% endif %}
+    </div>
+  
+    <div>
+      <label for="id_aciklama" class="block text-sm font-medium text-gray-700">Açıklama</label>
+      <textarea name="aciklama" id="id_aciklama" rows="4"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">{{ form.aciklama.value|default_if_none:'' }}</textarea>
+      {% if form.aciklama.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ form.aciklama.errors.0 }}</p>
+      {% endif %}
+    </div>
+  </div>
+  

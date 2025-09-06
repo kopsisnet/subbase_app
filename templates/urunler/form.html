@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ baslik }}{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-white p-6 rounded shadow-md">
+  <form method="post">
+    {% csrf_token %}
+    {% include "urunler/partials/_form_fields.html" %}
+    {% include "urunler/partials/_form_buttons.html" %}
+  </form>
+</div>
+{% endblock %}
