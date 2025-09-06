@@ -1,7 +1,3 @@
-Kesinlikle KOPSİS 💡 Sana özel, Django projesi oluşturma, GitHub’a yükleme ve Render’da yayına alma sürecini adım adım anlatan detaylı bir `README.md` dosyası hazırladım. Teknik netlik, modülerlik ve yayına hazır hale getirme odaklı. İşte örnek:
-
----
-
 ## 📄 `README.md` – Django + Supabase + Render Yayın Süreci
 
 ```markdown
