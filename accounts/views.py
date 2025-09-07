@@ -1,13 +1,16 @@
+from django.conf import settings
 from django.shortcuts import render, redirect
 import requests
 
-from subbase_app.settings import SUPABASE_URL
+
 from .utils.supabase_auth import (
     HEADERS, signup_user, login_user, get_user_info, update_password,
     reset_password, insert_user_record, is_authorized, get_user_roles
 )
 import logging
 logger = logging.getLogger(__name__)
+SUPABASE_AUTH_URL = f"{settings.SUPABASE_URL}/auth/v1"
+SUPABASE_DB_URL = f"{settings.SUPABASE_URL}/rest/v1"
 
 def signup_view(request):
     if request.method == "POST":
@@ -70,7 +73,7 @@ def reset_view(request):
     return render(request, "accounts/reset.html")
 
 def admin_users_view(request):
-    url = f"{SUPABASE_URL}/kopsis_users?select=id,email,aktif,rol_id,ad"
+    url = f"{SUPABASE_DB_URL}/kopsis_users?select=id,email,aktif,rol_id,ad"
     response = requests.get(url, headers=HEADERS)
     users = response.json()
     return render(request, "admin/users.html", {"users": users})
@@ -79,7 +82,7 @@ def admin_update_user_view(request, user_id):
     if request.method == "POST":
         aktif = request.POST.get("aktif") == "on"
         rol_id = request.POST.get("rol_id")
-        url = f"{SUPABASE_URL}/kopsis_users?id=eq.{user_id}"
+        url = f"{SUPABASE_DB_URL}/kopsis_users?id=eq.{user_id}"
         payload = {"aktif": aktif, "rol_id": int(rol_id)}
         response = requests.patch(url, json=payload, headers=HEADERS)
         return redirect("admin_users")
