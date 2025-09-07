@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Şifre Sıfırlama{% endblock %}
+{% block content %}
+<h2 class="text-xl font-bold mb-4 text-center">Şifre Sıfırlama</h2>
+<form method="post" class="space-y-4">
+  {% csrf_token %}
+  <input type="email" name="email" placeholder="E-posta" class="w-full border p-2 rounded">
+  <button type="submit" class="w-full bg-yellow-500 text-white py-2 rounded">Bağlantı Gönder</button>
+</form>
+{% if success %}<p class="text-green-600 mt-4 text-center">{{ success }}</p>{% endif %}
+{% if error %}<p class="text-red-600 mt-4 text-center">{{ error }}</p>{% endif %}
+{% endblock %}

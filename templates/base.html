@@ -2,13 +2,23 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
-  <title>{% block title %}Ürün Sistemi{% endblock %}</title>
+  <title>{% block title %}KopsisNet{% endblock %}</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-800">
-  <div class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6 text-center">Ürün Yönetim Sistemi</h1>
+  <nav class="bg-white shadow px-6 py-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold text-indigo-600">KopsisNet</h1>
+    <div class="space-x-4">
+      {% if request.session.token %}
+        <a href="{% url 'logout' %}" class="text-red-600 hover:underline">Çıkış Yap</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="text-blue-600 hover:underline">Giriş Yap</a>
+        <a href="{% url 'signup' %}" class="text-green-600 hover:underline">Kayıt Ol</a>
+      {% endif %}
+    </div>
+  </nav>
+  <main class="max-w-md mx-auto mt-10 bg-white p-6 rounded shadow">
     {% block content %}{% endblock %}
-  </div>
+  </main>
 </body>
 </html>
