@@ -42,15 +42,17 @@ def login_view(request):
     return render(request, "accounts/login.html")
 
 def set_password_view(request):
-    token = request.GET.get("access_token")
+    token = request.GET.get("access_token") or request.POST.get("access_token")
     if not token:
         return render(request, "accounts/set_password.html", {"error": "Geçersiz bağlantı."})
+
     if request.method == "POST":
         new_password = request.POST["new_password"]
         result = update_password(token, new_password)
         if "error" in result:
             return render(request, "accounts/set_password.html", {"error": result["error_description"]})
         return redirect("login")
+
     return render(request, "accounts/set_password.html")
 
 def reset_view(request):
