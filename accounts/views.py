@@ -35,7 +35,7 @@ def login_view(request):
             if is_authorized(user_id):
                 request.session["token"] = result["access_token"]
                 request.session["user_id"] = user_id
-                return redirect("dashboard")
+                return redirect("urun_listesi")
             else:
                 return render(request, "accounts/unauthorized.html")
         return render(request, "accounts/login.html", {"error": result.get("error_description")})
