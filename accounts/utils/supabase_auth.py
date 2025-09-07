@@ -51,3 +51,10 @@ def insert_user_record(user_id, email):
     headers = HEADERS.copy()
     headers["Prefer"] = "return=minimal"
     requests.post(url, json=payload, headers=headers)
+
+def get_user_info(token):
+    url = f"{SUPABASE_AUTH_URL}/user"
+    headers = HEADERS.copy()
+    headers["Authorization"] = f"Bearer {token}"
+    response = requests.get(url, headers=headers)
+    return response.json()

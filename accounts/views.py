@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .utils.supabase_auth import (
-    login_user, signup_user, reset_password,
+    get_user_info, login_user, signup_user, reset_password,
     update_password, is_authorized, insert_user_record
 )
 
@@ -29,13 +29,21 @@ def signup_view(request):
         email = request.POST["email"]
         password = request.POST["password"]
         result = signup_user(email, password)
+
         if "access_token" in result:
-            user_id = result["user"]["id"]
-            insert_user_record(user_id, email)
-            return render(request, "accounts/signup.html", {
-                "success": "Kayıt başarılı. Admin onayı sonrası giriş yapabilirsiniz."
-            })
-        return render(request, "accounts/signup.html", {"error": result.get("error_description")})
+            token = result["access_token"]
+            user_info = result.get("user") or get_user_info(token)
+            user_id = user_info.get("id")
+
+            if user_id:
+                insert_user_record(user_id, email)
+                return render(request, "accounts/signup.html", {
+                    "success": "Kayıt başarılı. Admin onayı sonrası giriş yapabilirsiniz."
+                })
+
+        return render(request, "accounts/signup.html", {
+            "error": result.get("error_description", "Kayıt başarısız.")
+        })
     return render(request, "accounts/signup.html")
 
 def reset_view(request):
