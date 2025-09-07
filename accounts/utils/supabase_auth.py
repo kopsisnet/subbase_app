@@ -37,9 +37,12 @@ def is_authorized(user_id):
     url = f"{SUPABASE_DB_URL}/kopsis_users?id=eq.{user_id}&select=aktif"
     response = requests.get(url, headers=HEADERS)
     if response.status_code != 200:
+        print("❌ Yetki sorgusu başarısız: %s", response.text)
         return False
     data = response.json()
+    print("📥 Yetki sorgusu yanıtı: %s", data)
     return bool(data) and data[0].get("aktif", False)
+
 
 def insert_user_record(user_id, email):
     url = f"{SUPABASE_DB_URL}/kopsis_users"
