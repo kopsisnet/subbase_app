@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
-from .utils.supabase_auth import login_user, signup_user, reset_password, update_password, is_authorized
+from .utils.supabase_auth import (
+    login_user, signup_user, reset_password,
+    update_password, is_authorized, insert_user_record
+)
 
 def login_view(request):
     if request.method == "POST":
@@ -27,6 +30,8 @@ def signup_view(request):
         password = request.POST["password"]
         result = signup_user(email, password)
         if "access_token" in result:
+            user_id = result["user"]["id"]
+            insert_user_record(user_id, email)
             return render(request, "accounts/signup.html", {
                 "success": "Kayıt başarılı. Admin onayı sonrası giriş yapabilirsiniz."
             })
