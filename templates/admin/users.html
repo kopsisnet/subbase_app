@@ -8,6 +8,7 @@
   </thead>
   <tbody>
     {% for user in users %}
+  {% if user.id %}
     <tr>
       <form method="post" action="{% url 'admin_update_user' user.id %}">
         {% csrf_token %}
@@ -24,7 +25,9 @@
         <td><button type="submit" class="btn btn-sm btn-success">Güncelle</button></td>
       </form>
     </tr>
-    {% endfor %}
+  {% endif %}
+{% endfor %}
+
   </tbody>
 </table>
 {% endblock %}
