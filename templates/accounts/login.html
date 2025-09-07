@@ -1,15 +1,18 @@
 {% extends "base.html" %}
 {% block title %}Giriş Yap{% endblock %}
 {% block content %}
-<h2 class="text-xl font-bold mb-4 text-center">Giriş Yap</h2>
-<form method="post" class="space-y-4">
+<h2>Giriş Yap</h2>
+<form method="post">
   {% csrf_token %}
-  <input type="email" name="email" placeholder="E-posta" class="w-full border p-2 rounded">
-  <input type="password" name="password" placeholder="Şifre" class="w-full border p-2 rounded">
-  <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded">Giriş</button>
+  <div class="mb-3">
+    <label>E-posta</label>
+    <input type="email" name="email" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Şifre</label>
+    <input type="password" name="password" class="form-control" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Giriş</button>
 </form>
-<div class="mt-4 text-center">
-  <a href="{% url 'reset' %}" class="text-sm text-blue-600 hover:underline">Şifremi Unuttum</a>
-</div>
-{% if error %}<p class="text-red-600 mt-4 text-center">{{ error }}</p>{% endif %}
+{% if error %}<div class="alert alert-danger mt-3">{{ error }}</div>{% endif %}
 {% endblock %}

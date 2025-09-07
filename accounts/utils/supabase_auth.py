@@ -8,22 +8,21 @@ HEADERS = {
     "Content-Type": "application/json"
 }
 
-def login_user(email, password):
-    url = f"{SUPABASE_AUTH_URL}/token?grant_type=password"
-    response = requests.post(url, json={"email": email, "password": password}, headers=HEADERS)
-    return response.json()
-
 def signup_user(email, password):
     url = f"{SUPABASE_AUTH_URL}/signup"
     response = requests.post(url, json={"email": email, "password": password}, headers=HEADERS)
     return response.json()
 
-def reset_password(email):
-    url = f"{SUPABASE_AUTH_URL}/recover"
-    response = requests.post(url, json={
-        "email": email,
-        "redirect_to": "https://subbase-app.onrender.com/update-password"
-    }, headers=HEADERS)
+def login_user(email, password):
+    url = f"{SUPABASE_AUTH_URL}/token?grant_type=password"
+    response = requests.post(url, json={"email": email, "password": password}, headers=HEADERS)
+    return response.json()
+
+def get_user_info(token):
+    url = f"{SUPABASE_AUTH_URL}/user"
+    headers = HEADERS.copy()
+    headers["Authorization"] = f"Bearer {token}"
+    response = requests.get(url, headers=headers)
     return response.json()
 
 def update_password(token, new_password):
@@ -33,31 +32,34 @@ def update_password(token, new_password):
     response = requests.put(url, json={"password": new_password}, headers=headers)
     return response.json()
 
-def is_authorized(user_id):
-    url = f"{SUPABASE_DB_URL}/kopsis_users?id=eq.{user_id}&select=aktif"
-    response = requests.get(url, headers=HEADERS)
-    if response.status_code != 200:
-        print("❌ Yetki sorgusu başarısız: %s", response.text)
-        return False
-    data = response.json()
-    print("📥 Yetki sorgusu yanıtı: %s", data)
-    return bool(data) and data[0].get("aktif", False)
+def reset_password(email):
+    url = f"{SUPABASE_AUTH_URL}/recover"
+    response = requests.post(url, json={
+        "email": email,
+        "redirect_to": "https://app.kopsis.com/set-password"
+    }, headers=HEADERS)
+    return response.json()
 
-
-def insert_user_record(user_id, email):
+def insert_user_record(user_id, email, rol_id=None, ad=None):
     url = f"{SUPABASE_DB_URL}/kopsis_users"
     payload = {
         "id": user_id,
         "email": email,
-        "aktif": False
+        "aktif": False,
+        "rol_id": rol_id,
+        "ad": ad
     }
     headers = HEADERS.copy()
     headers["Prefer"] = "return=minimal"
-    requests.post(url, json=payload, headers=headers)
+    response = requests.post(url, json=payload, headers=headers)
 
-def get_user_info(token):
-    url = f"{SUPABASE_AUTH_URL}/user"
-    headers = HEADERS.copy()
-    headers["Authorization"] = f"Bearer {token}"
-    response = requests.get(url, headers=headers)
-    return response.json()
+def is_authorized(user_id):
+    url = f"{SUPABASE_DB_URL}/kopsis_users?id=eq.{user_id}&select=aktif"
+    response = requests.get(url, headers=HEADERS)
+    data = response.json()
+    return bool(data) and data[0].get("aktif", False)
+
+def get_user_roles(user_id):
+    url = f"{SUPABASE_DB_URL}/user_roles?user_id=eq.{user_id}&select=role_id"
+    response = requests.get(url, headers=HEADERS)
+    return [r["role_id"] for r in response.json()]

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Kullanıcı Yönetimi{% endblock %}
+{% block content %}
+<h2>Kullanıcı Listesi</h2>
+<table class="table table-bordered">
+  <thead>
+    <tr><th>Ad</th><th>Email</th><th>Aktif</th><th>Rol</th><th>İşlem</th></tr>
+  </thead>
+  <tbody>
+    {% for user in users %}
+    <tr>
+      <form method="post" action="{% url 'admin_update_user' user.id %}">
+        {% csrf_token %}
+        <td>{{ user.ad }}</td>
+        <td>{{ user.email }}</td>
+        <td><input type="checkbox" name="aktif" {% if user.aktif %}checked{% endif %}></td>
+        <td>
+          <select name="rol_id" class="form-select">
+            <option value="1" {% if user.rol_id == 1 %}selected{% endif %}>Admin</option>
+            <option value="2" {% if user.rol_id == 2 %}selected{% endif %}>Editor</option>
+            <option value="3" {% if user.rol_id == 3 %}selected{% endif %}>Viewer</option>
+          </select>
+        </td>
+        <td><button type="submit" class="btn btn-sm btn-success">Güncelle</button></td>
+      </form>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
