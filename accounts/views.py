@@ -30,7 +30,9 @@ def signup_view(request):
         password = request.POST["password"]
         result = signup_user(email, password)
 
-        # Supabase bazen sadece "user" döner, bazen "access_token"
+        print("📩 Supabase signup yanıtı:", result)  # 🔍 Hata ayıklama için
+
+        # 1. Doğrudan user objesi varsa
         user_info = result.get("user")
         if user_info and "id" in user_info:
             user_id = user_info["id"]
@@ -39,10 +41,11 @@ def signup_view(request):
                 "success": "Kayıt başarılı. E-posta doğrulaması sonrası giriş yapabilirsiniz."
             })
 
-        # Eğer sadece access_token varsa yine kullanıcı bilgisi çekilebilir
-        if "access_token" in result:
-            token = result["access_token"]
+        # 2. access_token varsa, user bilgisi çek
+        token = result.get("access_token")
+        if token:
             user_info = get_user_info(token)
+            print("🔐 Token ile çekilen kullanıcı:", user_info)
             user_id = user_info.get("id")
             if user_id:
                 insert_user_record(user_id, email)
@@ -50,7 +53,7 @@ def signup_view(request):
                     "success": "Kayıt başarılı. Admin onayı sonrası giriş yapabilirsiniz."
                 })
 
-        # Hata mesajı daha net gösterilsin
+        # 3. Hiçbiri yoksa → hata mesajını göster
         error_msg = result.get("error_description") or result.get("msg") or "Kayıt başarısız."
         return render(request, "accounts/signup.html", {"error": error_msg})
     return render(request, "accounts/signup.html")
