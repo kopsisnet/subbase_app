@@ -41,6 +41,11 @@ def login_view(request):
         return render(request, "accounts/login.html", {"error": result.get("error_description")})
     return render(request, "accounts/login.html")
 
+def logout_view(request):
+    request.session.flush()
+    return redirect("login")
+
+
 def set_password_view(request):
     token = request.GET.get("access_token") or request.POST.get("access_token")
     if not token:
